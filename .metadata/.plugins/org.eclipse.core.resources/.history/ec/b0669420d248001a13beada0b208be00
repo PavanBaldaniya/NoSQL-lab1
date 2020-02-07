@@ -1,0 +1,25 @@
+import java.io.IOException;
+import java.util.StringTokenizer;
+import org.apache.hadoop.mapred.OutputCollector;
+import org.apache.hadoop.mapred.Reporter;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class ImageCountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+
+  private Text somekey = new Text();
+  
+  public void map(LongWritable key, Text value, OutputCollector<Text,IntWritable> output,Reporter reporter)
+      throws IOException, InterruptedException {
+	  
+	  String line = value.toString();
+	  StringTokenizer tokenizer = new StringTokenizer(line);
+	  while(tokenizer.hasMoreTokens())
+	  {
+		  somekey.set(tokenizer.nextToken());
+		  output.collect(somekey,new IntWritable(1));
+	  }
+  }
+}

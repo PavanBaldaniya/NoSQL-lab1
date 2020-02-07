@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="org.apache.hadoop.mapred.MapReduceBase"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.mapred.Mapper"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.io.LongWritable"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.mapred.JobClient"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.mapred.FileInputFormat"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.mapred.FileOutputFormat"/>
+<fullyQualifiedTypeName name="java.util.Iterator"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.io.IntWritable"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.mapred.Reducer"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.mapreduce.OutputFormat"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.mapred.InputFormat"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.mapreduce.InputFormat"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.mapred.TextInputFormat"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.mapred.TextOutputFormat"/>
+</qualifiedTypeNameHistroy>

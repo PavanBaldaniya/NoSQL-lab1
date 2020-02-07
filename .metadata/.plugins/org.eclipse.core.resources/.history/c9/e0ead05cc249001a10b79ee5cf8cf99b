@@ -1,0 +1,82 @@
+import java.io.IOException;
+import java.util.Iterator;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapred.FileInputFormat;
+import org.apache.hadoop.mapred.FileOutputFormat;
+import org.apache.hadoop.mapred.JobClient;
+import org.apache.hadoop.mapred.JobConf;
+import org.apache.hadoop.mapred.MapReduceBase;
+import org.apache.hadoop.mapred.Mapper;
+import org.apache.hadoop.mapred.OutputCollector;
+import org.apache.hadoop.mapred.Reducer;
+import org.apache.hadoop.mapred.Reporter;
+
+public class RequestCounter {
+	
+	public static class RequestCounterMapper extends MapReduceBase implements Mapper<LongWritable,Text,String,String>
+	{
+		
+		  public void map(LongWritable key, Text value, OutputCollector<String,String> output,Reporter reporter)
+		      throws IOException {
+			    
+			  String[] line = value.toString().split("\\s");
+			  String month = line[3].substring(1,3);
+			  String year = line[3].substring(8,12);
+			  String mykey = month + " " + year ;
+			  
+			  output.collect(mykey, line[9]);
+			
+		  }
+		
+	}
+	
+	
+	public static class RequestCounterReducer extends MapReduceBase implements Reducer<String,String,String,String>
+	{
+		
+		public void reduce(String key, Iterator<String> values,OutputCollector<String,String> output,Reporter reporter)
+			      throws IOException {
+				  
+				  float bytesum =0;
+				  while(values.hasNext())
+				  {
+					  bytesum += Integer.parseInt(values.next())/1000000;
+				  }
+				  //output.collect(key, new IntWritable(sum));
+
+			  }	
+	}
+	
+
+  public static void main(String[] args) throws Exception {
+	  
+    if (args.length != 2) {
+      System.err.println("Usage: Error404 <input path> <output path>");
+      System.exit(-1);
+    }
+    
+    JobConf conf = new JobConf(RequestCounter.class);
+    conf.setJobName("Error404");
+    
+    conf.setNumReduceTasks(0);
+
+    conf.setMapperClass(RequestCounterMapper.class);
+    //conf.setReducerClass(RequestCounterReducer.class);
+    
+    //conf.setOutputKeyClass(String.class);
+    //conf.setOutputValueClass(String.class);
+    
+    
+    //conf.setInputFormat(TextInputFormat.class);
+    //conf.setOutputFormat(TextOutputFormat.class);
+    
+    FileInputFormat.setInputPaths(conf, new Path(args[0]));
+    FileOutputFormat.setOutputPath(conf, new Path(args[1]));
+    
+    JobClient.runJob(conf);
+
+  }
+}
